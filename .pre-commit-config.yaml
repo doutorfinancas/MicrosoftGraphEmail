@@ -1,0 +1,13 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/digitalpulp/pre-commit-php.git
+    rev: 1.4.0
+    hooks:
+      - id: php-lint
+      - id: php-stan
+        files: 'src/.*(.php)$'
+        args: [ --autoload-file=utilities/vendor/autoload.php ]
+      - id: php-cs-fixer
+        files: \.(php)$
+        args: [ --rules=@PSR12 ]
