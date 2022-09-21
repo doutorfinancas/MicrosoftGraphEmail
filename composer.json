@@ -5,8 +5,8 @@
   "license": "Apache-2.0",
   "autoload": {
     "psr-4": {
-      "DoutorFinancas\\Utilities\\": "src/",
-      "DoutorFinancas\\Utilities\\Tests\\": "tests/"
+      "DoutorFinancas\\MicrosoftGraphEmail\\": "src/",
+      "DoutorFinancas\\MicrosoftGraphEmail\\Tests\\": "tests/"
     }
   },
   "authors": [

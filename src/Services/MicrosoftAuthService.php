@@ -1,6 +1,6 @@
 <?php
 
-namespace DoutorFinancas\Utilities\Services;
+namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
 use DoutorFinancas\Utilities\ValueObject\MicrosoftAuthToken;
 use GuzzleHttp\Client;

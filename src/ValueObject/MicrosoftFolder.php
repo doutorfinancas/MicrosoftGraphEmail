@@ -1,6 +1,6 @@
 <?php
 
-namespace DoutorFinancas\Utilities\ValueObject;
+namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 class MicrosoftFolder
 {
