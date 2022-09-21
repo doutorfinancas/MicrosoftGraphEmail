@@ -92,7 +92,7 @@ class MicrosoftEmailService
     }
 
 
-    public function getMailFolderIdByName($mailbox, $name): mixed
+    public function getMailFolderIdByName($mailbox, $name): ?MicrosoftFolder
     {
         return $this->getMailFolders($mailbox)->findByName($name);
     }
