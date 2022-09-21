@@ -2,9 +2,9 @@
 
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
-use DoutorFinancas\Utilities\ValueObject\MicrosoftAuthToken;
-use DoutorFinancas\Utilities\ValueObject\MicrosoftFolder;
-use DoutorFinancas\Utilities\ValueObject\MicrosoftFolderCollection;
+use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftAuthToken;
+use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftFolder;
+use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftFolderCollection;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;

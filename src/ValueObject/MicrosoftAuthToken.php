@@ -2,7 +2,7 @@
 
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
-use DoutorFinancas\Utilities\Services\MicrosoftAuthService;
+use DoutorFinancas\MicrosoftGraphEmail\Services\MicrosoftAuthService;
 
 class MicrosoftAuthToken
 {

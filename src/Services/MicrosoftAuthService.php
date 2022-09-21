@@ -2,7 +2,7 @@
 
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
-use DoutorFinancas\Utilities\ValueObject\MicrosoftAuthToken;
+use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftAuthToken;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
