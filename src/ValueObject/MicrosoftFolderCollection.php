@@ -33,10 +33,9 @@ class MicrosoftFolderCollection
      * @param string $name
      * @return MicrosoftFolder | null
      */
-    public function findByName(string $name): mixed
+    public function findByName(string $name): ?MicrosoftFolder
     {
         if (isset($this->list[$name])) {
-            var_dump($this->list[$name]);
             return $this->list[$name];
         }
 

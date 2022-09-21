@@ -113,7 +113,6 @@ class MicrosoftEmailService
         ), true);
     }
 
-
     protected function getMailIteration(
         MicrosoftFolderCollection $collection,
         string                    $url,

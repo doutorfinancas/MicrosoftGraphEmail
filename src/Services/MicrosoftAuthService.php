@@ -52,7 +52,7 @@ class MicrosoftAuthService
     public function getToken(
         string $scope = 'https://graph.microsoft.com/.default',
         string $grantType = 'client_credentials'
-    ): mixed {
+    ){
         try {
             $request = new Request(
                 'POST',
