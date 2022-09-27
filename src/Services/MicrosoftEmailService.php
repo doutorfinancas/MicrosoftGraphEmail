@@ -41,15 +41,21 @@ class MicrosoftEmailService
         $this->url = $url;
     }
 
-    public function getMessages($mailbox): array
+    public function getMessages(string $mailbox, bool $useImmutableIds = false): array
     {
         $token = $this->token->getTokenString();
+
+        $headers = ['Content-Type' => 'application/json'];
+
+        if ($useImmutableIds) {
+            $headers['Prefer'] = "IdType=\"ImmutableId\"";
+        }
 
         $messageList = json_decode(
             $this->sendGetRequest(
                 $this->url . 'users/' . $mailbox . '/mailFolders/Inbox/Messages',
                 $token,
-                ['Content-Type' => 'application/json']
+                $headers
             )
         );
         if (isset($messageList->error) && $messageList->error) {
