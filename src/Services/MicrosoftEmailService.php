@@ -103,8 +103,6 @@ class MicrosoftEmailService
 
         $url = $this->url . 'users/' . $mailbox . '/messages/' . $id . '/move';
 
-        var_dump($url, sprintf('{ "destinationId": "%s" }', $folder));
-
         return json_decode($this->sendPostRequest(
             $url,
             sprintf('{ "destinationId": "%s" }', $folder),
