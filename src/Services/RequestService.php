@@ -25,9 +25,17 @@ class RequestService
      */
     private $token;
     /**
-     * @var Request
+     * @var string
      */
-    private $request;
+    private $url;
+    /**
+     * @var string
+     */
+    private $requestMethod;
+    /**
+     * @var mixed|null
+     */
+    private $requestBody;
 
     public function __construct(
         MicrosoftConfig $config,
@@ -47,32 +55,27 @@ class RequestService
     /**
      * @param string $uri
      * @param string $requestMethod
-     * @param $body
+     * @param $requestBody
      * @return $this
      */
-    public function createRequest(string $uri, string $requestMethod = 'GET', $body = null): self
+    public function createRequest(string $uri, string $requestMethod = 'GET', $requestBody = null): self
     {
-        $url = sprintf('%s%s', $this->config->getGraphBaseURL(), $uri);
-        $this->request = new Request($requestMethod, $url, $this->defaultHeaders(), $body);
+        $this->url = sprintf('%s%s', $this->config->getGraphBaseURL(), $uri);
+        $this->requestMethod = $requestMethod;
+        $this->requestBody = $requestBody;
         return $this;
     }
 
     /**
      * @param string $filePath
-     * @param string $uri
-     * @param string $requestMethod
      * @return mixed
      * @throws ClientExceptionInterface
      */
-    public function upload(string $filePath, string $uri, string $requestMethod = 'PUT')
+    public function upload(string $filePath)
     {
         $file = fopen($filePath, 'r');
-        $fileContent = Utils::streamFor($file);
-
-        return $this
-            ->createRequest($uri, $requestMethod, $fileContent)
-            ->execute()
-        ;
+        $this->requestBody = Utils::streamFor($file);
+        return $this->execute();
     }
 
     /**
@@ -81,7 +84,8 @@ class RequestService
      */
     public function execute()
     {
-        $response = $this->httpClient->sendRequest($this->request);
+        $request = new Request($this->requestMethod, $this->url, $this->defaultHeaders(), $this->requestBody);
+        $response = $this->httpClient->sendRequest($request);
         return json_decode($response->getBody()->getContents());
     }
 

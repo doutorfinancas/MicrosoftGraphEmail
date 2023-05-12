@@ -44,12 +44,22 @@ class MicrosoftConfig
      * @var string
      */
     private $graphApiVersion;
+    /**
+     * @var string|null
+     */
+    private $sharePointBaseUrl;
+    /**
+     * @var string|null
+     */
+    private $sharePointUserSpaceName;
 
     public function __construct(
         string $tenantId,
         string $clientId,
         string $secret,
         string $driverId,
+        string $sharePointBaseUrl = null,
+        string $sharePointUserSpaceName = null,
         string $graphEndpoint = 'https://graph.microsoft.com',
         string $graphApiVersion = 'v1.0',
         string $authTokenURL = 'https://login.microsoftonline.com/%s/oauth2/v2.0/token',
@@ -68,6 +78,8 @@ class MicrosoftConfig
         $this->scope = $scope;
         $this->grantType = $grantType;
         $this->authenticationFlow = $authenticationFlow;
+        $this->sharePointBaseUrl = $sharePointBaseUrl;
+        $this->sharePointUserSpaceName = $sharePointUserSpaceName;
     }
 
     /**
@@ -140,5 +152,21 @@ class MicrosoftConfig
     public function getAuthenticationFlow(): string
     {
         return $this->authenticationFlow;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSharePointBaseUrl(): ?string
+    {
+        return $this->sharePointBaseUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSharePointUserSpaceName(): ?string
+    {
+        return $this->sharePointUserSpaceName;
     }
 }
