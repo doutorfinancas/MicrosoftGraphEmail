@@ -10,4 +10,4 @@ repos:
         args: [ --autoload-file=utilities/vendor/autoload.php ]
       - id: php-cs-fixer
         files: \.(php)$
-        args: [ --rules=@PSR12 ]
+        args: [ --config=.php-cs-fixer.dist.php ]
