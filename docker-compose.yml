@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  php:
+    container_name: ms-graph-php-7.2.34
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '256M'
+    volumes:
+      - "$PWD/:/var/www/html"
