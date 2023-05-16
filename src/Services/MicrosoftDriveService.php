@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
 use DoutorFinancas\MicrosoftGraphEmail\Exceptions\MicrosoftDriverException;
+use DoutorFinancas\MicrosoftGraphEmail\Exceptions\MicrosoftRequestException;
 use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftConfig;
 use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftDriverItem;
 use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftFolder;
@@ -33,6 +34,7 @@ class MicrosoftDriveService
      * @param string $filename
      * @param string $filePath
      *
+     * @throws MicrosoftRequestException
      * @throws MicrosoftDriverException
      *
      * @return null|MicrosoftDriverItem
@@ -72,9 +74,7 @@ class MicrosoftDriveService
                 $this->config->getSharePointBaseUrl()
             );
         } catch (ClientExceptionInterface $e) {
-            echo json_decode($e->getMessage()).PHP_EOL;
-
-            return null;
+            throw new MicrosoftRequestException($e->getMessage(), $e->getCode());
         }
     }
 }
