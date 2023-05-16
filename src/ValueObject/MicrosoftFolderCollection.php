@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 class MicrosoftFolderCollection
@@ -13,7 +15,6 @@ class MicrosoftFolderCollection
 
     /**
      * @param MicrosoftFolder $folder
-     * @return void
      */
     public function add(MicrosoftFolder $folder): void
     {
@@ -22,7 +23,6 @@ class MicrosoftFolderCollection
 
     /**
      * @param MicrosoftFolder $folder
-     * @return void
      */
     public function remove(MicrosoftFolder $folder): void
     {
@@ -31,7 +31,8 @@ class MicrosoftFolderCollection
 
     /**
      * @param string $name
-     * @return MicrosoftFolder | null
+     *
+     * @return null|MicrosoftFolder
      */
     public function findByName(string $name): ?MicrosoftFolder
     {

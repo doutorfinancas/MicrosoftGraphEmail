@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
 use DoutorFinancas\MicrosoftGraphEmail\Exceptions\MicrosoftDriverException;
@@ -14,6 +16,7 @@ class MicrosoftDriveService
      * @var RequestService
      */
     private $requestService;
+
     /**
      * @var MicrosoftConfig
      */
@@ -29,8 +32,10 @@ class MicrosoftDriveService
      * @param MicrosoftFolder $folder
      * @param string $filename
      * @param string $filePath
-     * @return MicrosoftDriverItem|null
+     *
      * @throws MicrosoftDriverException
+     *
+     * @return null|MicrosoftDriverItem
      */
     public function uploadFile(MicrosoftFolder $folder, string $filename, string $filePath): ?MicrosoftDriverItem
     {
@@ -50,7 +55,7 @@ class MicrosoftDriveService
             ;
 
             if (
-                ! property_exists($response, '@odata.context')
+                !property_exists($response, '@odata.context')
                 && property_exists($response, 'error')
             ) {
                 throw new MicrosoftDriverException(
@@ -67,7 +72,8 @@ class MicrosoftDriveService
                 $this->config->getSharePointBaseUrl()
             );
         } catch (ClientExceptionInterface $e) {
-            echo json_decode($e->getMessage()) . PHP_EOL;
+            echo json_decode($e->getMessage()).PHP_EOL;
+
             return null;
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
 use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftAuthToken;
@@ -33,8 +35,8 @@ class MicrosoftEmailService
      */
     public function __construct(
         MicrosoftAuthToken $token,
-        ClientInterface    $httpClient,
-        string             $url = 'https://graph.microsoft.com/v1.0/'
+        ClientInterface $httpClient,
+        string $url = 'https://graph.microsoft.com/v1.0/'
     ) {
         $this->token = $token;
         $this->httpClient = $httpClient;
@@ -48,18 +50,18 @@ class MicrosoftEmailService
         $headers = ['Content-Type' => 'application/json'];
 
         if ($useImmutableIds) {
-            $headers['Prefer'] = "IdType=\"ImmutableId\"";
+            $headers['Prefer'] = 'IdType="ImmutableId"';
         }
 
         $messageList = json_decode(
             $this->sendGetRequest(
-                $this->url . 'users/' . $mailbox . '/mailFolders/Inbox/Messages',
+                $this->url.'users/'.$mailbox.'/mailFolders/Inbox/Messages',
                 $token,
                 $headers
             )
         );
         if (isset($messageList->error) && $messageList->error) {
-            throw new \Exception($messageList->error->code . ' ' . $messageList->error->message);
+            throw new \Exception($messageList->error->code.' '.$messageList->error->message);
         }
         $messageArray = [];
 
@@ -92,11 +94,10 @@ class MicrosoftEmailService
     {
         return $this->getMailIteration(
             new MicrosoftFolderCollection(),
-            $this->url . 'users/' . $mailbox . '/mailFolders',
+            $this->url.'users/'.$mailbox.'/mailFolders',
             $this->token->getTokenString()
         );
     }
-
 
     public function getMailFolderIdByName($mailbox, $name): ?MicrosoftFolder
     {
@@ -107,7 +108,7 @@ class MicrosoftEmailService
     {
         $token = $this->token->getTokenString();
 
-        $url = $this->url . 'users/' . $mailbox . '/messages/' . $id . '/move';
+        $url = $this->url.'users/'.$mailbox.'/messages/'.$id.'/move';
 
         return json_decode($this->sendPostRequest(
             $url,
@@ -117,10 +118,32 @@ class MicrosoftEmailService
         ), true);
     }
 
+    public function sendPostRequest($url, $body, $token, $headers = []): string
+    {
+        try {
+            $request = new Request(
+                'POST',
+                $url,
+                array_merge([
+                    'Authorization' => 'Bearer '.$token,
+                ], $headers),
+                $body
+            );
+
+            $response = $this->httpClient->sendRequest($request);
+
+            return $response->getBody()->getContents();
+        } catch (ClientExceptionInterface $e) {
+            echo $e->getMessage().PHP_EOL;
+
+            return '';
+        }
+    }
+
     protected function getMailIteration(
         MicrosoftFolderCollection $collection,
-        string                    $url,
-        string                    $token
+        string $url,
+        string $token
     ): MicrosoftFolderCollection {
         $list = json_decode(
             $this->sendGetRequest(
@@ -132,7 +155,7 @@ class MicrosoftEmailService
         );
 
         foreach ($list['value'] as $folder) {
-            if (!is_array($folder)) {
+            if (!\is_array($folder)) {
                 continue;
             }
 
@@ -156,18 +179,18 @@ class MicrosoftEmailService
     {
         $attachments = (json_decode(
             $this->sendGetRequest(
-                $this->url . 'users/' . $mailbox . '/messages/' . $mailId . '/attachments',
+                $this->url.'users/'.$mailbox.'/messages/'.$mailId.'/attachments',
                 $token,
                 ['Content-Type' => 'application/json']
             )
         ))->value;
 
-        if (count($attachments) < 1) {
+        if (\count($attachments) < 1) {
             return [];
         }
 
         foreach ($attachments as $attachment) {
-            if ($attachment->{'@odata.type'} == '#microsoft.graph.referenceAttachment') {
+            if ('#microsoft.graph.referenceAttachment' === $attachment->{'@odata.type'}) {
                 // @TODO need to implement getting stuffs from SharePoint
                 $attachment->contentBytes = base64_encode('This is a link to a SharePoint online file, not yet supported');
                 $attachment->isInline = 0;
@@ -195,7 +218,7 @@ class MicrosoftEmailService
                 'GET',
                 $url,
                 array_merge([
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ], $headers)
             );
 
@@ -203,28 +226,8 @@ class MicrosoftEmailService
 
             return $response->getBody()->getContents();
         } catch (ClientExceptionInterface $e) {
-            echo $e->getMessage() . PHP_EOL;
-            return '';
-        }
-    }
+            echo $e->getMessage().PHP_EOL;
 
-    public function sendPostRequest($url, $body, $token, $headers = []): string
-    {
-        try {
-            $request = new Request(
-                'POST',
-                $url,
-                array_merge([
-                    'Authorization' => 'Bearer ' . $token,
-                ], $headers),
-                $body
-            );
-
-            $response = $this->httpClient->sendRequest($request);
-
-            return $response->getBody()->getContents();
-        } catch (ClientExceptionInterface $e) {
-            echo $e->getMessage() . PHP_EOL;
             return '';
         }
     }

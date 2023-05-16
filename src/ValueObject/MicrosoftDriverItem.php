@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 class MicrosoftDriverItem
@@ -8,14 +10,17 @@ class MicrosoftDriverItem
      * @var string
      */
     private $id;
+
     /**
      * @var string
      */
     private $name;
+
     /**
      * @var string
      */
     private $webUrl;
+
     /**
      * @var string
      */
@@ -25,10 +30,12 @@ class MicrosoftDriverItem
      * @var string
      */
     private $embedUrl;
+
     /**
      * @var string
      */
     private $userSpace;
+
     /**
      * @var string
      */
@@ -41,8 +48,7 @@ class MicrosoftDriverItem
         string $webUrl,
         string $userSpace,
         string $baseUrl
-    )
-    {
+    ) {
         $this->id = $id;
         $this->eTag = $eTag;
         $this->name = $name;
@@ -51,7 +57,6 @@ class MicrosoftDriverItem
         $this->baseUrl = $baseUrl;
 
         $this->configure();
-
     }
 
     /**
@@ -83,14 +88,14 @@ class MicrosoftDriverItem
         return $this->embedUrl;
     }
 
-    private function configure()
+    private function configure(): void
     {
         $this->createEmbedUrl();
     }
 
     private function createEmbedUrl(): void
     {
-        $url = <<<URL
+        $url = <<<'URL'
             %s/personal/%s/_layouts/15/Doc.aspx
             ?sourcedoc={%s}
             &action=embedview

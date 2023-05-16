@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\Services;
 
 use DoutorFinancas\MicrosoftGraphEmail\ValueObject\MicrosoftAuthToken;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -12,9 +12,13 @@ use Psr\Http\Client\ClientInterface;
 class MicrosoftAuthService
 {
     protected $url;
+
     protected $tenantId;
+
     protected $clientId;
+
     protected $secret;
+
     protected $httpClient;
 
     /**
@@ -36,7 +40,7 @@ class MicrosoftAuthService
         $this->clientId = $clientId;
         $this->secret = $secret;
         $this->url = $url;
-        if (strpos($url, '%s') !== false) {
+        if (str_contains($url, '%s')) {
             $this->url = sprintf(
                 'https://login.microsoftonline.com/%s/oauth2/v2.0/token',
                 $this->tenantId
@@ -47,12 +51,13 @@ class MicrosoftAuthService
     /**
      * @param string $scope
      * @param string $grantType
+     *
      * @return bool|MicrosoftAuthToken
      */
     public function getToken(
         string $scope = 'https://graph.microsoft.com/.default',
         string $grantType = 'client_credentials'
-    ){
+    ) {
         try {
             $request = new Request(
                 'POST',
@@ -72,6 +77,7 @@ class MicrosoftAuthService
             return new MicrosoftAuthToken($this, $token->access_token, $token->expires_in);
         } catch (ClientExceptionInterface $e) {
             echo $e->getTraceAsString();
+
             return false;
         }
     }

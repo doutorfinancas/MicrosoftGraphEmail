@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 class MicrosoftConfig
@@ -8,48 +10,59 @@ class MicrosoftConfig
      * @var string
      */
     private $tenantId;
+
     /**
      * @var string
      */
     private $clientId;
+
     /**
      * @var string
      */
     private $secret;
+
     /**
      * @var string
      */
     private $driverId;
+
     /**
      * @var string
      */
     private $graphEndpoint;
+
     /**
      * @var string
      */
     private $authTokenURL;
+
     /**
      * @var string
      */
     private $scope;
+
     /**
      * @var string
      */
     private $grantType;
+
     /**
      * @var string
      */
     private $authenticationFlow;
+
     /**
      * @var string
      */
     private $graphApiVersion;
+
     /**
-     * @var string|null
+     * @var null|string
      */
     private $sharePointBaseUrl;
+
     /**
-     * @var string|null
+     * @var null|string
      */
     private $sharePointUserSpaceName;
 
@@ -66,8 +79,7 @@ class MicrosoftConfig
         string $scope = 'https://graph.microsoft.com/.default',
         string $grantType = 'client_credentials',
         string $authenticationFlow = 'application' // just to know, not used in any place yet.
-    )
-    {
+    ) {
         $this->tenantId = $tenantId;
         $this->clientId = $clientId;
         $this->secret = $secret;
@@ -155,7 +167,7 @@ class MicrosoftConfig
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getSharePointBaseUrl(): ?string
     {
@@ -163,7 +175,7 @@ class MicrosoftConfig
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getSharePointUserSpaceName(): ?string
     {
