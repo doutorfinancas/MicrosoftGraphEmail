@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
-class MicrosoftDriverItem
+final class MicrosoftDriverItem
 {
     /**
      * @var string
