@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
+use DoutorFinancas\MicrosoftGraphEmail\Exceptions\MicrosoftValidationException;
+
 final class MicrosoftConfig
 {
     /**
@@ -66,6 +68,22 @@ final class MicrosoftConfig
      */
     private $sharePointUserSpaceName;
 
+    /**
+     * @param string $tenantId
+     * @param string $clientId
+     * @param string $secret
+     * @param string $driverId
+     * @param null|string $sharePointBaseUrl
+     * @param null|string $sharePointUserSpaceName
+     * @param string $graphEndpoint
+     * @param string $graphApiVersion
+     * @param string $authTokenURL
+     * @param string $scope
+     * @param string $grantType
+     * @param string $authenticationFlow
+     *
+     * @throws MicrosoftValidationException
+     */
     public function __construct(
         string $tenantId,
         string $clientId,
@@ -92,6 +110,8 @@ final class MicrosoftConfig
         $this->authenticationFlow = $authenticationFlow;
         $this->sharePointBaseUrl = $sharePointBaseUrl;
         $this->sharePointUserSpaceName = $sharePointUserSpaceName;
+
+        $this->validate();
     }
 
     /**
@@ -180,5 +200,29 @@ final class MicrosoftConfig
     public function getSharePointUserSpaceName(): ?string
     {
         return $this->sharePointUserSpaceName;
+    }
+
+    /**
+     * @throws MicrosoftValidationException
+     */
+    private function validate(): void
+    {
+        $gidRegex = '/^\{?[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}\}?$/i';
+
+        if (empty($this->clientId) || empty($this->secret) || empty($this->tenantId)) {
+            throw new MicrosoftValidationException('TenantId, ClientId and Secret should not be empty.');
+        }
+
+        if (!preg_match($gidRegex, $this->tenantId)) {
+            throw new MicrosoftValidationException('TenantId should be a GUID.');
+        }
+
+        if (!preg_match($gidRegex, $this->clientId)) {
+            throw new MicrosoftValidationException('ClientId should be a GUID.');
+        }
+
+        if ($this->tenantId === $this->clientId) {
+            throw new MicrosoftValidationException('TenantId and ClientID cannot be equals.');
+        }
     }
 }
