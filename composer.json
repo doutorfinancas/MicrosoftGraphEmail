@@ -23,11 +23,16 @@
       "email": "miguel.barros@doutorfinancas.pt"
     }
   ],
+  "scripts": {
+    "clean": "@cs",
+    "cs": "php ./vendor/bin/php-cs-fixer fix --using-cache=no --config .php-cs-fixer.dist.php --diff --allow-risky=yes --path-mode=intersection -- $(git status -s | cut -c4-)",
+    "pre-commit": "pre-commit --all-files --verbose"
+  },
   "minimum-stability": "stable",
   "require-dev": {
-    "phpunit/phpunit": "7.5.20",
-    "phpstan/phpstan": "^1.4",
-    "friendsofphp/php-cs-fixer": "2.19.3"
+    "phpunit/phpunit": "^8.5",
+    "phpstan/phpstan": "^1.10",
+    "friendsofphp/php-cs-fixer": "^3.4"
   },
   "require": {
     "guzzlehttp/guzzle": "^7.0",
