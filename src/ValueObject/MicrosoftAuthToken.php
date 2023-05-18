@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 use DoutorFinancas\MicrosoftGraphEmail\Services\MicrosoftAuthService;
@@ -7,7 +9,9 @@ use DoutorFinancas\MicrosoftGraphEmail\Services\MicrosoftAuthService;
 class MicrosoftAuthToken
 {
     protected $service;
+
     protected $token;
+
     protected $expiration;
 
     public function __construct(MicrosoftAuthService $service, string $token, int $expiresIn)

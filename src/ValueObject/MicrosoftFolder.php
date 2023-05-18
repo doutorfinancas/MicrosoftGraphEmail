@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DoutorFinancas\MicrosoftGraphEmail\ValueObject;
 
 class MicrosoftFolder
 {
     protected $id;
+
     protected $name;
 
     /**
