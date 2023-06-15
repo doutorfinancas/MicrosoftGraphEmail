@@ -71,7 +71,8 @@ class MicrosoftDriveService
                 $response->name,
                 $response->webUrl,
                 $this->config->getSharePointUserSpaceName(),
-                $this->config->getSharePointBaseUrl()
+                $this->config->getSharePointBaseUrl(),
+                $response->{'@microsoft.graph.downloadUrl'}
             );
         } catch (ClientExceptionInterface $e) {
             throw new MicrosoftRequestException($e->getMessage(), $e->getCode());
