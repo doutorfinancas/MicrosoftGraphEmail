@@ -96,17 +96,16 @@ final class MicrosoftDriverItem
     }
 
     /**
-     * @param bool $withTempAuth
-     *
      * @return null|string
      */
-    public function getDownloadUrl(bool $withTempAuth = true): ?string
+    public function getDownloadUrl(): ?string
     {
-        if (!$withTempAuth) {
-            return $this->downloadUrl;
-        }
-
         return preg_replace('/&tempauth(=[^&]*)?|^foo(=[^&]*)?&?/', '', $this->downloadUrl);
+    }
+
+    public function getDownloadUrlWithTmpAuthParameter(): ?string
+    {
+        return $this->downloadUrl;
     }
 
     private function configure(): void
