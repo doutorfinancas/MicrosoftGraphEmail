@@ -41,13 +41,19 @@ final class MicrosoftDriverItem
      */
     private $baseUrl;
 
+    /**
+     * @var null|string
+     */
+    private $downloadUrl;
+
     public function __construct(
         string $id,
         string $eTag,
         string $name,
         string $webUrl,
         string $userSpace,
-        string $baseUrl
+        string $baseUrl,
+        string $downloadUrl = null
     ) {
         $this->id = $id;
         $this->eTag = $eTag;
@@ -57,6 +63,7 @@ final class MicrosoftDriverItem
         $this->baseUrl = $baseUrl;
 
         $this->configure();
+        $this->downloadUrl = $downloadUrl;
     }
 
     /**
@@ -86,6 +93,19 @@ final class MicrosoftDriverItem
     public function getEmbedUrl(): string
     {
         return $this->embedUrl;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDownloadUrl(): ?string
+    {
+        return preg_replace('/&tempauth(=[^&]*)?|^foo(=[^&]*)?&?/', '', $this->downloadUrl);
+    }
+
+    public function getDownloadUrlWithTmpAuthParameter(): ?string
+    {
+        return $this->downloadUrl;
     }
 
     private function configure(): void
